@@ -1,0 +1,32 @@
+<% content_for :title, 'Edit MITRE' %>
+
+<% content_for :sidebar do %>
+  <%= render 'issues/sidebar' %>
+<% end %>
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <%= link_to current_project.name, main_app.project_path(current_project) %>
+  </li>
+  <li class="breadcrumb-item">
+    <%= link_to 'All issues', main_app.project_issues_path(current_project) %>
+  </li>
+  <li class="breadcrumb-item">
+    <%= link_to @issue.title? ? @issue.title : "Issue ##{@issue.id}", main_app.project_issue_path(current_project, @issue) %>
+  </li>
+  <li class="breadcrumb-item active">
+    MITRE ATT&CK
+  </li>
+</ol>
+
+<div class="content-container">
+  <h4 class="header-underline mb-2">Edit MITRE ATT&CK</h4>
+
+  <%= simple_form_for [:mitre, current_project, @issue], method: :patch do |f| %>
+    <%= render 'dradis/plugins/calculators/mitre/base/v1' %>
+    <div class="form-actions mt-2">
+      <%= f.button :submit, nil, class: 'btn btn-primary' %> or
+      <%= link_to 'Cancel', main_app.project_issue_path(current_project, @issue), class: 'cancel-link' %>
+    </div>
+  <% end %>
+</div>
