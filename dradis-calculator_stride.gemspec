@@ -1,14 +1,14 @@
 $:.push File.expand_path('../lib', __FILE__)
 
-require 'dradis/plugins/calculators/mitre/version'
+require 'dradis/plugins/calculators/stride/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
-  spec.name = 'dradis-calculator_mitre'
-  spec.version = Dradis::Plugins::Calculators::MITRE::VERSION::STRING
-  spec.summary = 'This plugin adds a MITRE addon to Dradis.'
-  spec.description = 'Add MITRE tactics, techniques, and sub-techniques to your Issues.'
+  spec.name = 'dradis-calculator_stride'
+  spec.version = Dradis::Plugins::Calculators::STRIDE::VERSION::STRING
+  spec.summary = 'This plugin adds a STRIDE addon to Dradis.'
+  spec.description = 'Add STRIDE threat modeling fields (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) to your Issues.'
 
   spec.license = 'GPL-2'
 

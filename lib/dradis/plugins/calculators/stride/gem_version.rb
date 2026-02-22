@@ -1,8 +1,8 @@
 module Dradis
   module Plugins
     module Calculators
-      module MITRE
-        # Returns the version of the currently loaded Nessus as a <tt>Gem::Version</tt>
+      module STRIDE
+        # Returns the version of the currently loaded calculator as a <tt>Gem::Version</tt>
         def self.gem_version
           Gem::Version.new VERSION::STRING
         end

@@ -3,8 +3,8 @@ require_relative 'gem_version'
 module Dradis
   module Plugins
     module Calculators
-      module MITRE
-        # Returns the version of the currently loaded Nessus as a
+      module STRIDE
+        # Returns the version of the currently loaded STRIDE calculator as a
         # <tt>Gem::Version</tt>.
         def self.version
           gem_version
