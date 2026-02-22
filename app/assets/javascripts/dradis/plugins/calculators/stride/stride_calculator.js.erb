@@ -1,0 +1,71 @@
+(function () {
+  function init() {
+    const root = document.querySelector('[data-behavior~="stride-calc"]');
+    if (!root) return;
+
+    const result = root.querySelector('textarea[data-behavior="stride-result"]');
+    if (!result) return;
+
+    const selects = Array.from(
+      root.querySelectorAll('select[data-field^="STRIDE."]')
+    );
+
+    function escapeRegex(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function getResultValue(label) {
+      const re = new RegExp(
+        `\\#\\[${escapeRegex(label)}\\]\\#\\n(.*?)(?=\\n|$)`,
+        'i'
+      );
+      const m = (result.value || '').match(re);
+      return m ? m[1].trim() : null;
+    }
+
+    function upsertBlock(label, value) {
+      const header = `#[${label}]#`;
+      const re = new RegExp(
+        `(^|\\n\\n)${escapeRegex(header)}\\n[\\s\\S]*?(?=\\n\\n#\\[|\\n\\n$|$)`,
+        'm'
+      );
+      const block = `${header}\n${value}`;
+
+      const text = result.value || '';
+      if (re.test(text)) {
+        result.value = text.replace(re, (_, p1) => `${p1}${block}`);
+        return;
+      }
+
+      const trimmed = text.trim();
+      result.value = trimmed ? `${trimmed}\n\n${block}` : block;
+    }
+
+    function preselectFromResult() {
+      selects.forEach((sel) => {
+        const label = sel.getAttribute('data-field');
+        if (!label) return;
+
+        const current = getResultValue(label);
+        if (!current || current === 'N/A') return;
+
+        const option = sel.querySelector(`option[value="${current}"]`);
+        if (option) sel.value = current;
+      });
+    }
+
+    selects.forEach((sel) => {
+      sel.addEventListener('change', () => {
+        const label = sel.getAttribute('data-field');
+        const value = (sel.value || '').trim();
+        if (!label || !value) return;
+        upsertBlock(label, value);
+      });
+    });
+
+    preselectFromResult();
+  }
+
+  document.addEventListener('turbo:load', init);
+  document.addEventListener('turbo:frame-load', init);
+})();

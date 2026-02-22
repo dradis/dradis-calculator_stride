@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MITRE ATT&CK Calculator | Dradis Framework</title>
-    <%= stylesheet_link_tag    'dradis/plugins/calculators/mitre/base', media: 'all', 'data-turbo-track': 'reload' %>
-    <%= javascript_include_tag 'dradis/plugins/calculators/mitre/base', 'data-turbo-track': 'reload' %>
+    <title>STRIDE Calculator | Dradis Framework</title>
+    <%= stylesheet_link_tag    'dradis/plugins/calculators/stride/base', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_include_tag 'dradis/plugins/calculators/stride/base', 'data-turbo-track': 'reload' %>
     <%= csrf_meta_tags %>
     <%= javascript_importmap_tags %>
 
@@ -12,7 +12,7 @@
   <body class="authenticated">
     <div class="container">
       <nav class="navbar">
-        <a href="javascript:void(0)" class="navbar-brand">MITRE ATT&CK Calculator</a>
+        <a href="javascript:void(0)" class="navbar-brand">STRIDE Calculator</a>
         <ul class="navbar-nav pull-right">
           <li class="nav-item">
             <%= link_to main_app.root_path, class: 'nav-link', data: { turbo: false } do %>

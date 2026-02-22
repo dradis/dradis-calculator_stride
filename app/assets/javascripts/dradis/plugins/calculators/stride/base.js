@@ -2,4 +2,4 @@
 //= require popper
 //= require bootstrap
 
-//= require dradis/plugins/calculators/mitre/mitre_calculator
+//= require dradis/plugins/calculators/stride/stride_calculator
