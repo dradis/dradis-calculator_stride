@@ -1,11 +1,11 @@
-Dradis::Plugins::Calculators::MITRE::Engine.routes.draw do
-  get '/calculators/mitre' => 'base#index'
+Dradis::Plugins::Calculators::STRIDE::Engine.routes.draw do
+  get '/calculators/stride' => 'base#index'
 
   resources :projects, only: [] do
     resources :issues, only: [] do
       member do
-        get 'mitre' => 'issues#edit'
-        patch 'mitre' => 'issues#update'
+        get 'stride' => 'issues#edit'
+        patch 'stride' => 'issues#update'
       end
     end
   end
