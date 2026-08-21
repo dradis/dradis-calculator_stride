@@ -1,1 +1,82 @@
-// STRIDE calculator behavior is implemented in a follow-up PR.
+(function () {
+  function init() {
+    const root = document.querySelector('[data-behavior~="stride-calc"]');
+    if (!root) return;
+
+    const result = root.querySelector('textarea[data-behavior="stride-result"]');
+    if (!result) return;
+
+    const switches = Array.from(
+      root.querySelectorAll('input[type="checkbox"][data-field^="STRIDE."]')
+    );
+
+    function escapeRegex(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function getResultValue(label) {
+      const re = new RegExp(
+        `\\#\\[${escapeRegex(label)}\\]\\#\\n(.*?)(?=\\n|$)`,
+        'i'
+      );
+      const m = (result.value || '').match(re);
+      return m ? m[1].trim() : null;
+    }
+
+    function upsertBlock(label, value) {
+      const header = `#[${label}]#`;
+      const re = new RegExp(
+        `(^|\\n\\n)${escapeRegex(header)}\\n[\\s\\S]*?(?=\\n\\n#\\[|\\n\\n$|$)`,
+        'm'
+      );
+      const block = `${header}\n${value}`;
+
+      const text = result.value || '';
+      if (re.test(text)) {
+        result.value = text.replace(re, (_, p1) => `${p1}${block}`);
+        return;
+      }
+
+      const trimmed = text.trim();
+      result.value = trimmed ? `${trimmed}\n\n${block}` : block;
+    }
+
+    function updateSwitch(switchInput) {
+      return switchInput.checked ? 'Yes' : 'No';
+    }
+
+    function updateScoreLetter(label, value) {
+      const letter = label.replace('STRIDE.', '').charAt(0);
+      const element = root.querySelector(`[data-stride-letter="${letter}"]`);
+      if (element) element.classList.toggle('text-black-50', value !== 'Yes');
+    }
+
+    function initializeSwitches() {
+      switches.forEach((switchInput) => {
+        const label = switchInput.getAttribute('data-field');
+        if (!label) return;
+
+        const current = getResultValue(label);
+        switchInput.checked = current === 'Yes';
+        const value = updateSwitch(switchInput);
+        upsertBlock(label, value);
+        updateScoreLetter(label, value);
+      });
+    }
+
+    switches.forEach((switchInput) => {
+      switchInput.addEventListener('change', () => {
+        const label = switchInput.getAttribute('data-field');
+        if (!label) return;
+        const value = updateSwitch(switchInput);
+        upsertBlock(label, value);
+        updateScoreLetter(label, value);
+      });
+    });
+
+    initializeSwitches();
+  }
+
+  document.addEventListener('turbo:load', init);
+  document.addEventListener('turbo:frame-load', init);
+})();
