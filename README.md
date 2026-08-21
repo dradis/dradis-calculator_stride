@@ -1,10 +1,23 @@
-# MITRE addon for Dradis
+# STRIDE addon for Dradis
 
-This simple addon adds a new "MITRE" tab in your Issue view, where you can add MITRE ATT&CK tactics, techniques, and sub-techniques:
+This simple addon adds a STRIDE threat modeling calculator to Dradis.
 
-![MITRE](https://github.com/user-attachments/assets/04835e13-14d0-4524-9574-ec0768bb38d3)
+It introduces a new **STRIDE** tab in the Issue view, allowing you to quickly assess the presence of the six STRIDE threat categories using simple **Yes / No** selections. The results are stored directly in Issue fields.
 
-MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge) is a curated knowledge base of real-world cyber adversary behavior, based on threat intelligence and incident reporting. It provides a framework for describing how attackers operate across various stages of an intrusion, helping defenders detect, assess, and mitigate threats effectively. Learn more at [MITRE ATT&CK](https://attack.mitre.org/#)
+![STRIDE](.github/images/STRIDE-pro.PNG)
+
+## What is STRIDE?
+
+STRIDE is a threat modeling framework that categorizes threats into six classes:
+
+- **Spoofing**
+- **Tampering**
+- **Repudiation**
+- **Information Disclosure**
+- **Denial of Service**
+- **Elevation of Privilege**
+
+[STRIDE](https://learn.microsoft.com/en-us/previous-versions/commerce-server/ee823878(v=cs.20)) is commonly used during design reviews, architecture assessments, and application threat modeling to systematically reason about security risks.
 
 The add-on requires [Dradis CE](https://dradis.com/ce/) > 3.0, or [Dradis Pro](https://dradis.com/).
 
@@ -12,7 +25,7 @@ The add-on requires [Dradis CE](https://dradis.com/ce/) > 3.0, or [Dradis Pro](h
 
 Add this to your `Gemfile.plugins`:
 
-    gem 'dradis-calculator_mitre'
+    gem 'dradis-calculator_stride'
 
 And
 
@@ -34,10 +47,6 @@ See the Dradis Framework's [CONTRIBUTING.md](https://github.com/dradis/dradis-ce
 ## License
 
 Dradis Framework and all its components are released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html) as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.
-
-This plugin uses data from [MITRE ATT&CK®](https://attack.mitre.org/), sourced from the [MITRE CTI repository](https://github.com/mitre/cti).
-
-© 2015–2024 The MITRE Corporation. This work is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 
 ## Feature requests and bugs
