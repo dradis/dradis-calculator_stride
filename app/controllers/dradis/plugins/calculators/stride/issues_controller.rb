@@ -7,7 +7,7 @@ module Dradis::Plugins::Calculators::STRIDE
     def edit
       @issue_fields = Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.map do |field|
         value = @issue.fields[field]
-        value = 'N/A' if value.blank?
+        value = 'No' unless value == 'Yes'
         "#[#{field}]#\n#{value}"
       end.join("\n\n")
     end

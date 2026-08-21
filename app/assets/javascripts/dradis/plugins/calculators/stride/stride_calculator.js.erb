@@ -6,8 +6,8 @@
     const result = root.querySelector('textarea[data-behavior="stride-result"]');
     if (!result) return;
 
-    const selects = Array.from(
-      root.querySelectorAll('select[data-field^="STRIDE."]')
+    const switches = Array.from(
+      root.querySelectorAll('input[type="checkbox"][data-field^="STRIDE."]')
     );
 
     function escapeRegex(s) {
@@ -41,29 +41,36 @@
       result.value = trimmed ? `${trimmed}\n\n${block}` : block;
     }
 
-    function preselectFromResult() {
-      selects.forEach((sel) => {
-        const label = sel.getAttribute('data-field');
+    function updateSwitch(switchInput) {
+      const value = switchInput.checked ? 'Yes' : 'No';
+      const status = root.querySelector(
+        `[data-behavior="stride-switch-status"][data-field="${switchInput.getAttribute('data-field')}"]`
+      );
+
+      if (status) status.textContent = value;
+      return value;
+    }
+
+    function initializeSwitches() {
+      switches.forEach((switchInput) => {
+        const label = switchInput.getAttribute('data-field');
         if (!label) return;
 
         const current = getResultValue(label);
-        if (!current || current === 'N/A') return;
-
-        const option = sel.querySelector(`option[value="${current}"]`);
-        if (option) sel.value = current;
+        switchInput.checked = current === 'Yes';
+        upsertBlock(label, updateSwitch(switchInput));
       });
     }
 
-    selects.forEach((sel) => {
-      sel.addEventListener('change', () => {
-        const label = sel.getAttribute('data-field');
-        const value = (sel.value || '').trim();
-        if (!label || !value) return;
-        upsertBlock(label, value);
+    switches.forEach((switchInput) => {
+      switchInput.addEventListener('change', () => {
+        const label = switchInput.getAttribute('data-field');
+        if (!label) return;
+        upsertBlock(label, updateSwitch(switchInput));
       });
     });
 
-    preselectFromResult();
+    initializeSwitches();
   }
 
   document.addEventListener('turbo:load', init);
