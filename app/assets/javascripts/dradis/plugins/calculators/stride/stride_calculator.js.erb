@@ -46,15 +46,7 @@
     }
 
     function updateScoreLetter(label, value) {
-      const letter = {
-        'STRIDE.Spoofing': 'S',
-        'STRIDE.Tampering': 'T',
-        'STRIDE.Repudiation': 'R',
-        'STRIDE.InformationDisclosure': 'I',
-        'STRIDE.DenialOfService': 'D',
-        'STRIDE.ElevationOfPrivilege': 'E'
-      }[label];
-      if (!letter) return;
+      const letter = label.replace('STRIDE.', '').charAt(0);
       const element = root.querySelector(`[data-stride-letter="${letter}"]`);
       if (element) element.classList.toggle('text-black-50', value !== 'Yes');
     }
