@@ -5,8 +5,21 @@
     </div>
 
     <div class="col-lg-6 stride-results-column">
-      <label for="stride_fields" class="form-label">Result</label>
-      <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea', data: { behavior: 'stride-result' } %>
+      <div class="stride-results-panel">
+        <h3 class="stride-section-title">Result</h3>
+
+        <div class="stride-score-display">
+          <span class="stride-score text-black-50">STRIDE</span>
+        </div>
+
+        <div class="stride-dradis-output">
+          <label class="stride-output-label">
+            Dradis field output
+            <span class="d-block">Copy this into Dradis to populate issue fields</span>
+          </label>
+          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea', data: { behavior: 'stride-result' } %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
