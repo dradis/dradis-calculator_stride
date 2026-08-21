@@ -23,7 +23,18 @@
   <h4 class="header-underline mb-2">Edit STRIDE</h4>
 
   <%= simple_form_for [:stride, current_project, @issue], method: :patch do |f| %>
-    <%= render 'dradis/plugins/calculators/stride/base/v1' %>
+    <div data-behavior="stride-calc" class="stride-issue-calculator">
+      <div class="row g-4 mt-1">
+        <div class="col-lg-6">
+          <%= render 'dradis/plugins/calculators/stride/base/fields' %>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column">
+          <label for="stride_fields" class="form-label">Result</label>
+          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea flex-grow-1', data: { behavior: 'stride-result' } %>
+        </div>
+      </div>
+    </div>
     <div class="form-actions mt-2">
       <%= f.button :submit, nil, class: 'btn btn-primary' %> or
       <%= link_to 'Cancel', main_app.project_issue_path(current_project, @issue), class: 'cancel-link' %>

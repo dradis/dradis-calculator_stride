@@ -1,26 +1,12 @@
-<div data-behavior="stride-calc">
+<div data-behavior="stride-calc" class="stride-calculator">
   <div class="row g-4 mt-1">
     <div class="col-lg-6">
-      <div class="stride-switches">
-        <% Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.each do |field| %>
-          <% name = field.delete_prefix('STRIDE.').underscore.humanize %>
-          <% input_id = "stride-#{field.delete_prefix('STRIDE.').underscore.dasherize}-switch" %>
-          <div class="stride-switch-row">
-            <label class="form-check-label stride-switch-label" for="<%= input_id %>"><%= name %></label>
-            <div class="form-check form-switch mb-0">
-              <input id="<%= input_id %>" class="form-check-input" type="checkbox" role="switch" data-field="<%= field %>">
-              <span class="stride-switch-status" data-behavior="stride-switch-status" data-field="<%= field %>">No</span>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <%= render 'dradis/plugins/calculators/stride/base/fields' %>
     </div>
 
-    <div class="col-lg-6">
-      <div class="stride-results-panel">
-        <label for="stride_fields" class="form-label">Result</label>
-        <%= text_area_tag :stride_fields, @issue_fields, class: 'form-control stride-output-textarea', data: { behavior: 'stride-result' } %>
-      </div>
+    <div class="col-lg-6 stride-results-column">
+      <label for="stride_fields" class="form-label">Result</label>
+      <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea', data: { behavior: 'stride-result' } %>
     </div>
   </div>
 </div>

@@ -42,13 +42,7 @@
     }
 
     function updateSwitch(switchInput) {
-      const value = switchInput.checked ? 'Yes' : 'No';
-      const status = root.querySelector(
-        `[data-behavior="stride-switch-status"][data-field="${switchInput.getAttribute('data-field')}"]`
-      );
-
-      if (status) status.textContent = value;
-      return value;
+      return switchInput.checked ? 'Yes' : 'No';
     }
 
     function initializeSwitches() {
