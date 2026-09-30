@@ -1,0 +1,5 @@
+<% unless defined?(Dradis::Pro) && current_user.role?(:contributor) %>
+  <li>
+    <%= link_to 'Risk Calculators - STRIDE', stride_calculator.calculators_stride_path, class: 'dropdown-item', data: { turbolinks: false } %>
+  </li>
+<% end %>
