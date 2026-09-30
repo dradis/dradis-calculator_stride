@@ -1,1 +1,91 @@
-// STRIDE calculator styling is implemented in a follow-up PR.
+.stride-calculator-switch {
+  background-color: var(--primary-bg);
+  border-color: var(--border-color);
+
+  &:checked {
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
+
+.form-switch .stride-calculator-switch {
+  background-image: var(--form-switch-bg);
+}
+
+textarea.stride-output-textarea {
+  background: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  color: var(--text-muted);
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo',
+    monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  min-height: 25rem;
+  resize: vertical;
+}
+
+.stride-dradis-output {
+  margin-bottom: 0.5rem;
+}
+
+.stride-output-label {
+  letter-spacing: 0.04em;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+}
+
+.stride-output-label span {
+  letter-spacing: 0;
+  margin-top: 0.125rem;
+  text-transform: none;
+}
+
+.stride-results-panel {
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 0.5rem 0 rgba($shadow-color-dark, 0.1);
+  padding: 1.5rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.stride-results-column {
+  align-self: flex-start;
+}
+
+.stride-score-display {
+  align-items: center;
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.stride-score {
+  font-size: 3rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.stride-section-title {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.stride-issue-calculator textarea.stride-output-textarea {
+  height: 100%;
+}
+
+@media (max-width: 991.98px) {
+  .stride-results-panel {
+    box-shadow: none;
+    position: static;
+  }
+
+  .stride-score {
+    font-size: 2.25rem;
+  }
+
+  .stride-issue-calculator textarea.stride-output-textarea {
+    height: auto;
+  }
+}
