@@ -10,7 +10,10 @@
 
         <div class="stride-score-display">
           <span class="stride-score" aria-label="STRIDE">
-            <span class="text-black-50" data-stride-letter="S">S</span><span class="text-black-50" data-stride-letter="T">T</span><span class="text-black-50" data-stride-letter="R">R</span><span class="text-black-50" data-stride-letter="I">I</span><span class="text-black-50" data-stride-letter="D">D</span><span class="text-black-50" data-stride-letter="E">E</span>
+            <%= safe_join(Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.map do |field|
+              letter = field.delete_prefix('STRIDE.').first
+              content_tag :span, letter, class: ('text-black-50' unless @stride_values[field] == 'Yes'), data: { stride_letter: letter }
+            end) %>
           </span>
         </div>
 
@@ -19,7 +22,7 @@
             Dradis field output
             <span class="d-block">Copy this into Dradis to populate issue fields</span>
           </label>
-          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea', data: { behavior: 'stride-result' } %>
+          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea', readonly: true, data: { behavior: 'stride-result', source_url: stride_calculator.stride_source_path } %>
         </div>
       </div>
     </div>

@@ -3,78 +3,47 @@
     const root = document.querySelector('[data-behavior~="stride-calc"]');
     if (!root) return;
 
-    const result = root.querySelector('textarea[data-behavior="stride-result"]');
+    const result = root.querySelector('[data-behavior~="stride-result"]');
     if (!result) return;
 
-    const switches = Array.from(
-      root.querySelectorAll('input[type="checkbox"][data-field^="STRIDE."]')
-    );
+    const switches = Array.from(root.querySelectorAll('[data-field^="STRIDE."]'));
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
-    function escapeRegex(s) {
-      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
+    const post = (url, body) =>
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify(body)
+      }).then((response) => {
+        if (!response.ok) throw new Error(`STRIDE request failed: ${response.status}`);
+        return response;
+      });
 
-    function getResultValue(label) {
-      const re = new RegExp(
-        `\\#\\[${escapeRegex(label)}\\]\\#\\n(.*?)(?=\\n|$)`,
-        'i'
-      );
-      const m = (result.value || '').match(re);
-      return m ? m[1].trim() : null;
-    }
-
-    function upsertBlock(label, value) {
-      const header = `#[${label}]#`;
-      const re = new RegExp(
-        `(^|\\n\\n)${escapeRegex(header)}\\n[\\s\\S]*?(?=\\n\\n#\\[|\\n\\n$|$)`,
-        'm'
-      );
-      const block = `${header}\n${value}`;
-
-      const text = result.value || '';
-      if (re.test(text)) {
-        result.value = text.replace(re, (_, p1) => `${p1}${block}`);
-        return;
-      }
-
-      const trimmed = text.trim();
-      result.value = trimmed ? `${trimmed}\n\n${block}` : block;
-    }
-
-    function updateSwitch(switchInput) {
-      return switchInput.checked ? 'Yes' : 'No';
-    }
-
-    function updateScoreLetter(label, value) {
-      const letter = label.replace('STRIDE.', '').charAt(0);
+    const updateScoreLetter = (field, value) => {
+      const letter = field.replace('STRIDE.', '').charAt(0);
       const element = root.querySelector(`[data-stride-letter="${letter}"]`);
       if (element) element.classList.toggle('text-black-50', value !== 'Yes');
-    }
+    };
 
-    function initializeSwitches() {
-      switches.forEach((switchInput) => {
-        const label = switchInput.getAttribute('data-field');
-        if (!label) return;
+    const switchValues = () =>
+      Object.fromEntries(
+        switches.map((switchInput) => [switchInput.dataset.field, switchInput.checked ? 'Yes' : 'No'])
+      );
 
-        const current = getResultValue(label);
-        switchInput.checked = current === 'Yes';
-        const value = updateSwitch(switchInput);
-        upsertBlock(label, value);
-        updateScoreLetter(label, value);
-      });
-    }
+    const updateSource = async () => {
+      const response = await post(result.dataset.sourceUrl, { values: switchValues() });
+      result.value = await response.text();
+    };
 
     switches.forEach((switchInput) => {
       switchInput.addEventListener('change', () => {
-        const label = switchInput.getAttribute('data-field');
-        if (!label) return;
-        const value = updateSwitch(switchInput);
-        upsertBlock(label, value);
-        updateScoreLetter(label, value);
+        updateScoreLetter(switchInput.dataset.field, switchInput.checked ? 'Yes' : 'No');
+        updateSource();
       });
     });
-
-    initializeSwitches();
   }
 
   document.addEventListener('turbo:load', init);

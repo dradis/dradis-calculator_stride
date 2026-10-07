@@ -1,9 +1,13 @@
 module Dradis::Plugins::Calculators::STRIDE
   class BaseController < ActionController::Base
     def index
-      @issue_fields = Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.map do |field|
-        "#[#{field}]#\nNo"
-      end.join("\n\n")
+      @stride_values = V1.values({})
+      @issue_fields = V1.values_to_source(@stride_values)
+    end
+
+    # Returns the source text with the STRIDE fields set from the switches
+    def source
+      render plain: V1.values_to_source(params.fetch(:values, {}).permit(*V1::FIELDS))
     end
   end
 end
