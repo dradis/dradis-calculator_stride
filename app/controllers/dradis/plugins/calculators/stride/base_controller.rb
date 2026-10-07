@@ -7,7 +7,7 @@ module Dradis::Plugins::Calculators::STRIDE
 
     # Returns the source text with the STRIDE fields set from the switches
     def source
-      render plain: V1.values_to_source(params.fetch(:values, {}).permit(*V1::FIELDS))
+      render plain: V1.values_to_source(params.fetch(:values, {}).permit(*V1::FIELDS.keys))
     end
   end
 end

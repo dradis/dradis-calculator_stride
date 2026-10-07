@@ -1,9 +1,7 @@
-<% Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.each do |field| %>
-  <% name = field.delete_prefix('STRIDE.').underscore.humanize %>
-  <% input_id = "stride-#{field.delete_prefix('STRIDE.').underscore.dasherize}-switch" %>
+<% Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.each do |field, options| %>
   <div class="form-check form-switch mb-3">
-    <input id="<%= input_id %>" class="form-check-input stride-calculator-switch" type="checkbox" role="switch" data-field="<%= field %>" <%= 'checked' if @stride_values[field] == 'Yes' %>>
-    <label class="form-check-label" for="<%= input_id %>"><%= name %></label>
-    <p class="form-text small mb-0"><%= Dradis::Plugins::Calculators::STRIDE::V1::DESCRIPTIONS.fetch(field) %></p>
+    <input id="<%= field.parameterize %>" class="form-check-input stride-calculator-switch" type="checkbox" role="switch" data-field="<%= field %>" <%= 'checked' if @stride_values[field] == 'Yes' %>>
+    <label class="form-check-label" for="<%= field.parameterize %>"><%= options[:label] %></label>
+    <p class="form-text small mb-0"><%= options[:description] %></p>
   </div>
 <% end %>

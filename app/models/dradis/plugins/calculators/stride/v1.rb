@@ -1,29 +1,36 @@
 module Dradis::Plugins::Calculators::STRIDE
   class V1
-    FIELD_NAMES = %i[
-      Spoofing
-      Tampering
-      Repudiation
-      InformationDisclosure
-      DenialOfService
-      ElevationOfPrivilege
-    ].freeze
-
-    FIELDS = FIELD_NAMES.map { |name| "STRIDE.#{name}".freeze }.freeze
-
-    DESCRIPTIONS = {
-      'STRIDE.Spoofing' => "An attacker uses another user's authentication information.",
-      'STRIDE.Tampering' => 'An attacker changes data in storage or in transit.',
-      'STRIDE.Repudiation' => 'A user denies an action without proof to trace it.',
-      'STRIDE.InformationDisclosure' => 'Information reaches people who should not access it.',
-      'STRIDE.DenialOfService' => 'An attack prevents valid users from accessing a service.',
-      'STRIDE.ElevationOfPrivilege' => 'An unprivileged user gains access to privileged actions.'
+    FIELDS = {
+      'STRIDE.Spoofing' => {
+        label: 'Spoofing',
+        description: "An attacker uses another user's authentication information."
+      },
+      'STRIDE.Tampering' => {
+        label: 'Tampering',
+        description: 'An attacker changes data in storage or in transit.'
+      },
+      'STRIDE.Repudiation' => {
+        label: 'Repudiation',
+        description: 'A user denies an action without proof to trace it.'
+      },
+      'STRIDE.InformationDisclosure' => {
+        label: 'Information disclosure',
+        description: 'Information reaches people who should not access it.'
+      },
+      'STRIDE.DenialOfService' => {
+        label: 'Denial of service',
+        description: 'An attack prevents valid users from accessing a service.'
+      },
+      'STRIDE.ElevationOfPrivilege' => {
+        label: 'Elevation of privilege',
+        description: 'An unprivileged user gains access to privileged actions.'
+      }
     }.freeze
 
     # Returns a Hash of every STRIDE field name to 'Yes' or 'No', read from a
     # fields Hash. Missing or unrecognized values default to 'No'.
     def self.values(fields)
-      FIELDS.to_h { |field| [field, fields[field] == 'Yes' ? 'Yes' : 'No'] }
+      FIELDS.keys.to_h { |field| [field, fields[field] == 'Yes' ? 'Yes' : 'No'] }
     end
 
     # Returns the STRIDE field values found in Dradis-style source text.
