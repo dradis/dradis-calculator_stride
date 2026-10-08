@@ -1,5 +1,5 @@
-module Dradis::Plugins::Calculators::STRIDE
-  class V1
+module Dradis::Plugins::Calculators::STRIDE::V1
+  class Fields
     FIELDS = {
       'STRIDE.Spoofing' => {
         label: 'Spoofing',

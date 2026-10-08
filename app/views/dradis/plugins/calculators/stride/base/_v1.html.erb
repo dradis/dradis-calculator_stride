@@ -10,7 +10,7 @@
 
         <div class="stride-score-display">
           <span class="stride-score" aria-label="STRIDE">
-            <%= safe_join(Dradis::Plugins::Calculators::STRIDE::V1::FIELDS.map do |field, options|
+            <%= safe_join(Dradis::Plugins::Calculators::STRIDE::V1::Fields::FIELDS.map do |field, options|
               content_tag :span, options[:label].first, class: ('text-black-50' unless @stride_values[field] == 'Yes'), data: { stride_letter: field }
             end) %>
           </span>
