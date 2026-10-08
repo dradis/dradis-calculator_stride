@@ -4,10 +4,5 @@ module Dradis::Plugins::Calculators::STRIDE
       @stride_values = V1::Fields.values({})
       @issue_fields = V1::Fields.values_to_source(@stride_values)
     end
-
-    # Returns the source text with the STRIDE fields set from the switches
-    def source
-      render plain: V1::Fields.values_to_source(params.fetch(:values, {}).permit(*V1::Fields::FIELDS.keys))
-    end
   end
 end

@@ -31,7 +31,7 @@
 
         <div class="col-lg-6 d-flex flex-column">
           <label for="stride_fields" class="form-label">Result</label>
-          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea flex-grow-1', readonly: true, data: { behavior: 'stride-result', source_url: stride_calculator.stride_source_path } %>
+          <%= text_area_tag :stride_fields, @issue_fields, rows: 20, class: 'form-control stride-output-textarea flex-grow-1', readonly: true, data: { behavior: 'stride-result', fields_url: stride_calculator.fields_path } %>
         </div>
       </div>
     </div>

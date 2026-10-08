@@ -7,33 +7,21 @@
     if (!result) return;
 
     const switches = Array.from(root.querySelectorAll('[data-field^="STRIDE."]'));
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-
-    const post = (url, body) =>
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken
-        },
-        body: JSON.stringify(body)
-      }).then((response) => {
-        if (!response.ok) throw new Error(`STRIDE request failed: ${response.status}`);
-        return response;
-      });
 
     const updateScoreLetter = (field, value) => {
       const element = root.querySelector(`[data-stride-letter="${field}"]`);
       if (element) element.classList.toggle('text-black-50', value !== 'Yes');
     };
 
-    const switchValues = () =>
-      Object.fromEntries(
-        switches.map((switchInput) => [switchInput.dataset.field, switchInput.checked ? 'Yes' : 'No'])
+    const switchParams = () =>
+      new URLSearchParams(
+        switches.map((switchInput) => [`values[${switchInput.dataset.field}]`, switchInput.checked ? 'Yes' : 'No'])
       );
 
     const updateSource = async () => {
-      const response = await post(result.dataset.sourceUrl, { values: switchValues() });
+      const response = await fetch(`${result.dataset.fieldsUrl}?${switchParams()}`);
+      if (!response.ok) throw new Error(`STRIDE request failed: ${response.status}`);
+
       result.value = await response.text();
     };
 

@@ -1,6 +1,9 @@
 Dradis::Plugins::Calculators::STRIDE::Engine.routes.draw do
   get '/calculators/stride' => 'base#index'
-  post '/calculators/stride/source' => 'base#source', as: :stride_source
+
+  scope '/calculators/stride' do
+    resources :fields, only: :index
+  end
 
   resources :projects, only: [] do
     resources :issues, only: [] do
