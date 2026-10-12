@@ -1,1 +1,37 @@
-// STRIDE calculator behavior is implemented in a follow-up PR.
+(function () {
+  function init() {
+    const root = document.querySelector('[data-behavior~="stride-calc"]');
+    if (!root) return;
+
+    const result = root.querySelector('[data-behavior~="stride-result"]');
+    if (!result) return;
+
+    const switches = Array.from(root.querySelectorAll('[data-field^="STRIDE."]'));
+
+    const updateScoreLetter = (field, value) => {
+      const element = root.querySelector(`[data-stride-letter="${field}"]`);
+      if (element) element.classList.toggle('text-black-50', value !== 'Yes');
+    };
+
+    const switchParams = () =>
+      new URLSearchParams(
+        switches.map((switchInput) => [`values[${switchInput.dataset.field}]`, switchInput.checked ? 'Yes' : 'No'])
+      );
+
+    const updateSource = async () => {
+      const response = await fetch(`${result.dataset.fieldsUrl}?${switchParams()}`);
+      if (!response.ok) throw new Error(`STRIDE request failed: ${response.status}`);
+
+      result.value = await response.text();
+    };
+
+    switches.forEach((switchInput) => {
+      switchInput.addEventListener('change', () => {
+        updateScoreLetter(switchInput.dataset.field, switchInput.checked ? 'Yes' : 'No');
+        updateSource();
+      });
+    });
+  }
+
+  document.addEventListener('turbo:load', init);
+})();

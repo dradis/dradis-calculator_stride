@@ -1,0 +1,7 @@
+<% Dradis::Plugins::Calculators::STRIDE::V1::Fields::FIELDS.each do |field, options| %>
+  <div class="form-check form-switch mb-3">
+    <input id="<%= field.parameterize %>" class="form-check-input stride-calculator-switch" type="checkbox" role="switch" data-field="<%= field %>" <%= 'checked' if @stride_values[field] == 'Yes' %>>
+    <label class="form-check-label" for="<%= field.parameterize %>"><%= options[:label] %></label>
+    <p class="form-text small mb-0"><%= options[:description] %></p>
+  </div>
+<% end %>

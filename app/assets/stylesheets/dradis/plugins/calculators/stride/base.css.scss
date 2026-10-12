@@ -1,5 +1,23 @@
-@import '_bootstrap';
-
+@import 'hera/custom_grid';
 @import 'hera/variables';
+@import 'bootstrap';
 @import 'hera/themes';
+@import 'hera/base';
+
 @import 'dradis/plugins/calculators/stride/calculator';
+
+body {
+  font-size: 0.95rem;
+}
+
+.container {
+  padding: 0 $padding;
+}
+
+.nav-link {
+  color: var(--text-link);
+
+  &:hover {
+    color: var(--text-link-hover);
+  }
+}
